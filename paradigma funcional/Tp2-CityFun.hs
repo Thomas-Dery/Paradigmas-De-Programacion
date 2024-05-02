@@ -72,5 +72,7 @@ data Anio = UnAnio {
     eventos :: [Evento]
 }
 
-reflejarAnio :: Int -> [Evento] -> Ciudad
-reflejarA
+
+
+--reflejarAnio :: Int -> [Evento] -> Ciudad
+--reflejarAnio 
