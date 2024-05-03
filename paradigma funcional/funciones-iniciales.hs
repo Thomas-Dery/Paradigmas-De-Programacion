@@ -129,4 +129,67 @@ cuantasPalabrasConMasDe3Caracteres listaString = length.(filter tieneMasDe3 list
 
 -}
 
+-- f :: Integer -> [Integer]
+-- f 0 = []
+-- f n = n : f (n - 1)
 
+-- g 0 x = 0
+-- g y 0 = y
+-- g y x = x + y
+
+-- g 3/0 + 2  ---devuele--- infinito
+-- g 0 (3/0) ---devuelve--- 0
+-- take 2 (f 50) ---devuelve--- [50,49]
+-- (f 0) !! 1000 ---devuelve--- -1000
+
+-- g :: Float -> Float -> Float
+-- g 0 x = x
+-- g y x = x + y
+
+-- head (msp (2*) [1,2,3,4,5,56,65,5,5,5,5]) ---devuelve--- 2
+-- last (msp (2*) [1,2,3,4,5,56,65,5,5,5,5]) ---devuelve--- 10
+
+-- g 0 (g 0 (34 + 4)) ---devuelve--- 38
+-- g 0 (g (3/0) (34 + 4)) ---devuelve--- infinito
+
+-- h 0 x = error "es cero" 
+-- h y x = x = y
+
+-- ultimo :: [Float] -> Float
+-- ultimo [x] = x
+-- ultimo (cabeza:cola)
+--    | cabeza < 10 = ultimo cola
+--    | otherwise = ultimo cola
+
+-- ejemplo: ultimo [5,1,2,3] ---devuelve--- 
+
+-- cuello :: [a] -> [a]
+-- cuello (x:xs) = xs ---devuelve--- xs,   ----desarma
+-- ejemplo: cuello [1,2,3] ---devuelve--- [2,3]
+
+-- agregar :: a -> [a] -> [a]
+-- agregar x xs = x:xs   ---- arma
+-- ejemplo: agregar 1 [2,3,4] ---devuelve--- [1,2,3,4]
+
+ff a b [] = b
+ff a b(x:xs) = ff a (a b x) xs
+
+-- ejemplo: 
+
+ff2 a b [] = []
+ff2 a b (x:xs) = a b (ff2 a x xs)
+
+data Persona = UnaPersona {
+    cansancio :: Float,
+    nombre :: String
+} deriving (Show)
+
+trabajar :: Float -> Persona -> Persona
+trabajar trabajo alguien =  alguien{cansancio = cansancio alguien + trabajo}
+
+jose :: Persona
+jose = UnaPersona 50 "jose perez"
+
+ana = UnaPersona 80 "ana perez"
+
+-- pruebo, trabajar 10 (trabajar 20 jose) ---devuelve--- UnaPersona {cansancio = 80.0, nombre = "jose perez"}
