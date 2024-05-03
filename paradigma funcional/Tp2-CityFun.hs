@@ -90,3 +90,6 @@ anioParaRecordar anio ciudad = foldl (\acc funcion -> funcion acc) ciudad (event
 --reflejarAnio :: Int -> [Evento] -> Ciudad
 --reflejarAnio 
 
+
+-- algoMejor ciudad comparacion evento = comparacion (evento ciudad) > comparacion ciudad
+

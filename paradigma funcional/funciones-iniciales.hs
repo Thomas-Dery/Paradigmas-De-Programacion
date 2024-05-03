@@ -184,8 +184,8 @@ data Persona = UnaPersona {
     nombre :: String
 } deriving (Show)
 
-trabajar :: Float -> Persona -> Persona
-trabajar trabajo alguien =  alguien{cansancio = cansancio alguien + trabajo}
+trabajar :: Persona -> Float -> Persona
+trabajar alguien trabajo =  alguien{cansancio = cansancio alguien + trabajo}
 
 jose :: Persona
 jose = UnaPersona 50 "jose perez"
@@ -193,3 +193,24 @@ jose = UnaPersona 50 "jose perez"
 ana = UnaPersona 80 "ana perez"
 
 -- pruebo, trabajar 10 (trabajar 20 jose) ---devuelve--- UnaPersona {cansancio = 80.0, nombre = "jose perez"}
+
+trabajar2 :: Float -> Persona -> Persona
+trabajar2 trabajo alguien = alguien{cansancio = cansancio alguien + trabajo}
+
+-- reflejarAnio :: Int -> [Evento] -> Ciudad
+-- reflejarAnio 
+
+-- foldl (++) "" ["hola", "que","tal"] ---devuelve--- "holaquetal"
+
+-- foldl (trabajar) jose  [1,20,31,4]  ---devuelve--- UnaPersona {cansancio = 106, nombre = "jose perez"}
+
+-- foldl1 (+)[1,2,3,4] ---devuelve--- 10 (no tiene valor inicial)
+
+-- foldl1 (max) [1,20,31,4] ---devuelve--- 31
+
+-- foldl1 ganador [estudiantes, boca, velez] --- va comparando, en este caso compara quien gana entre los primeros 2, el ganador de esta comparacion pasa a ser comparado con el siguiente y asi sucesivamente.
+
+
+
+
+
