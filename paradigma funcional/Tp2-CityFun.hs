@@ -79,6 +79,7 @@ data Anio = UnAnio{
     eventos :: [Evento]
 }
 
+<<<<<<< HEAD
 anioEj :: Anio
 anioEj = UnAnio 2022 [crisisCiudad, remodelarCiudad 5, reevaluacionCiudad 7]
 anioAzul :: Anio
@@ -86,3 +87,9 @@ anioAzul = UnAnio 2015 []
 
 anioParaRecordar :: Anio -> Ciudad -> Ciudad
 anioParaRecordar anio ciudad = foldl (\acc funcion -> funcion acc) ciudad (eventos anio)
+=======
+
+
+--reflejarAnio :: Int -> [Evento] -> Ciudad
+--reflejarAnio 
+>>>>>>> 0f51c535dd36c571dce30c4d7924ee08ceba0ece
