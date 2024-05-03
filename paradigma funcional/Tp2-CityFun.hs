@@ -26,51 +26,63 @@ valorCiudad ciudad
 
 --PARTE 2
 atraccionCopada :: Ciudad -> Bool
-atraccionCopada ciudad = any vocal (atracciones ciudad)
+--atraccionCopada ciudad = any vocal (atracciones ciudad)
+--atraccionCopada ciudad = any (\lugar -> head lugar `elem` "aeiouAEIOU") (atracciones ciudad)
+atraccionCopada ciudad = any ((`elem` "aeiouAEIOU").head) (atracciones ciudad)
 
-vocal :: String -> Bool
-vocal lugar = head lugar `elem` "aeiouAEIOU"
+--vocal :: String -> Bool
+--vocal lugar = head lugar `elem` "aeiouAEIOU"
 
 ciudadSobria :: Ciudad -> Int -> Bool
-ciudadSobria ciudad x = not (null (atracciones ciudad)) && all (letras x) (atracciones ciudad)
+--ciudadSobria ciudad x = not (null (atracciones ciudad)) && all (letras x) (atracciones ciudad)
+--ciudadSobria ciudad x = not (null (atracciones ciudad)) && all (\lugar -> length lugar > x) (atracciones ciudad)
+ciudadSobria ciudad x = not (null (atracciones ciudad)) && all ((>x).length) (atracciones ciudad)
 
-letras :: Int -> String -> Bool
-letras x lugar = length lugar > x
+--letras :: Int -> String -> Bool
+--letras x lugar = length lugar > x
 
 ciudadNombreRaro :: Ciudad -> Bool
-ciudadNombreRaro ciudad = length (nombre ciudad) < 5
+--ciudadNombreRaro ciudad = length (nombre ciudad) < 5
+ciudadNombreRaro = (<5).length.nombre
 
 --PARTE 3
-sumarAtraccion :: Ciudad -> String -> Ciudad
-sumarAtraccion ciudad nuevaAtraccion = ciudad{atracciones = atracciones ciudad ++ [nuevaAtraccion], costoDeVida = costoDeVida ciudad * 1.2}
+costo :: Ciudad -> Float -> Float
+costo ciudad porcentaje = costoDeVida ciudad * porcentaje
+
+sumarAtraccion :: String -> Ciudad -> Ciudad
+sumarAtraccion nuevaAtraccion ciudad = ciudad{atracciones = nuevaAtraccion : atracciones ciudad , costoDeVida = costo ciudad 1.2}
+--sumarAtraccion ciudad nuevaAtraccion = ciudad{atracciones = atracciones ciudad ++ [nuevaAtraccion], costoDeVida = costo ciudad 1.2}
 
 crisisCiudad :: Ciudad -> Ciudad
 crisisCiudad ciudad
-    | null (atracciones ciudad) = ciudad{costoDeVida = costoDeVida ciudad - costoDeVida ciudad * 0.1}
-    | otherwise = ciudad{atracciones = init (atracciones ciudad), costoDeVida = costoDeVida ciudad - costoDeVida ciudad * 0.1}
+                | null (atracciones ciudad) = ciudad{costoDeVida = costoDeVida ciudad - costoDeVida ciudad * 0.1}
+                | otherwise = ciudad{atracciones = init (atracciones ciudad), costoDeVida = costoDeVida ciudad - costo ciudad 0.1}
 
-remodelarCiudad :: Ciudad -> Float -> Ciudad
-remodelarCiudad ciudad porcentaje = ciudad{costoDeVida = costoDeVida ciudad * (porcentaje/100 + 1), nombre = "New " ++ nombre ciudad}
+remodelarCiudad :: Float -> Ciudad -> Ciudad
+remodelarCiudad porcentaje ciudad = ciudad{costoDeVida = costo ciudad (porcentaje/100 + 1), nombre = "New " ++ nombre ciudad}
 
-reevaluacionCiudad :: Ciudad -> Int -> Ciudad
-reevaluacionCiudad ciudad n
-    | ciudadSobria ciudad n = ciudad{costoDeVida = costoDeVida ciudad * 1.1}
-    | otherwise = ciudad{costoDeVida = costoDeVida ciudad - 3}
+reevaluacionCiudad :: Int -> Ciudad -> Ciudad
+reevaluacionCiudad n ciudad
+                    | ciudadSobria ciudad n = ciudad{costoDeVida = costo ciudad 1.1}
+                    | otherwise = ciudad{costoDeVida = costoDeVida ciudad - 3}
 
 --PARTE 4
-transformacion :: Ciudad -> Float -> Int -> Ciudad
-transformacion ciudad porcentaje n = reevaluacionCiudad (crisisCiudad (remodelarCiudad ciudad porcentaje)) n
---tranformacion ciudad porcentaje n = revaluacionCiudad letras.crisisCiudad.remodelarCiudad porcenaje n
+transformacion :: Float -> Int -> Ciudad -> Ciudad
+--transformacion porcentaje n ciudad = reevaluacionCiudad n (crisisCiudad (remodelarCiudad porcentaje ciudad))
+transformacion porcentaje n = reevaluacionCiudad n.crisisCiudad.remodelarCiudad porcentaje
 
---transformacion letras ciudad = reevaluacion letras (crisis (remodelacion ciudad))
---transformacion letras cantidad = reevaluacion  letras . crisis . remodelacion cantidad
-
-type Evento = String
-
-data Anio = UnAnio {
-    numero :: Int,
+--CONTINUACION TP
+--PARTE 4.1
+type Evento = Ciudad -> Ciudad
+data Anio = UnAnio{
+    num :: Int,
     eventos :: [Evento]
 }
 
-reflejarAnio :: Int -> [Evento] -> Ciudad
-reflejarA
+anioEj :: Anio
+anioEj = UnAnio 2022 [crisisCiudad, remodelarCiudad 5, reevaluacionCiudad 7]
+anioAzul :: Anio
+anioAzul = UnAnio 2015 []
+
+anioParaRecordar :: Anio -> Ciudad -> Ciudad
+anioParaRecordar anio ciudad = foldl (\acc funcion -> funcion acc) ciudad (eventos anio)
