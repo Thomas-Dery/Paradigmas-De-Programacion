@@ -12,6 +12,7 @@ cartman = UnPersonaje "cartman" 0 0
 butters :: Personaje
 butters = UnPersonaje "butters" 100 100
 
+kenny :: Personaje
 kenny = UnPersonaje "kenny" 500 500
 
 irEscuela :: Personaje -> Personaje
