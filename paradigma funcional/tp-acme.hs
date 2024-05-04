@@ -21,8 +21,6 @@ star = UnaEmpresa "star" 0
 noxxon :: Empresa
 noxxon = UnaEmpresa  "NOXXON" 0
 
-
-
 {-
 Una empresa abre una cierta cantidad de sucursales y necesita contratar nuevos empleados. La cantidad de empleados para cada sucursal es la misma, y se calcula según el nombre de la empresa, de la siguiente manera:
 
