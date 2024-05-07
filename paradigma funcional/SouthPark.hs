@@ -21,13 +21,13 @@ irEscuela personaje
     | otherwise = personaje{felicidad = felicidad personaje - 20}
 
 cheesyProofs :: Int -> Personaje -> Personaje
-cheesyProofs cantidad personaje = personaje{felicidad = felicidad personaje + 10, dinero = dinero personaje - (cantidad * 10)} 
+cheesyProofs cantidad personaje = personaje{felicidad = felicidad personaje + 10, dinero = dinero personaje - (cantidad * 10)}
 
 trabajar :: String -> Personaje -> Personaje
-trabajar trabajo personaje = personaje{dinero = dinero personaje + length(trabajo)}
+trabajar trabajo personaje = personaje{dinero = dinero personaje + length trabajo}
 
 dobleTurno :: String -> Personaje -> Personaje
-dobleTurno trabajo personaje = personaje{dinero = dinero personaje + 2 * length(trabajo), felicidad = felicidad personaje - length(trabajo)}
+dobleTurno trabajo personaje = personaje{dinero = dinero personaje + 2 * length trabajo, felicidad = felicidad personaje - length trabajo}
 
 
 jugarWow :: Int -> Int -> Personaje -> Personaje

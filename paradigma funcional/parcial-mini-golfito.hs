@@ -12,8 +12,13 @@ data Habilidad = Habilidad {
 } deriving (Eq, Show)
 
 -- Jugadores de ejemplo
+bart :: Jugador
 bart = UnJugador "Bart" "Homero" (Habilidad 25 60)
+
+todd :: Jugador
 todd = UnJugador "Todd" "Ned" (Habilidad 15 80)
+
+rafa :: Jugador
 rafa = UnJugador "Rafa" "Gorgory" (Habilidad 10 1)
 
 data Tiro = UnTiro {
@@ -63,3 +68,32 @@ golpe :: Jugador -> Palo -> Tiro
 golpe jugador palo = generarTiro palo (habilidad jugador)
 
 -- PARTE 3
+
+between :: Ord a => a -> a -> a -> Bool
+between x y z = x <= z && z <= y
+
+data Obstaculo = Tunel | Laguna | Hoyo deriving (Eq, Show)
+
+obstaculos :: [Obstaculo]
+obstaculos = [Tunel, Laguna, Hoyo]
+
+puedeSuperarTunel :: Tiro -> Bool
+puedeSuperarTunel tiro = (precision tiro > 90) && (altura tiro == 0)
+
+puedeSuperarLaguna :: Tiro -> Bool
+puedeSuperarLaguna tiro = (velocidad tiro > 80) && (between 1 5 (altura tiro))
+
+puedeSuperarHoyo :: Tiro -> Bool
+puedeSuperarHoyo tiro = (velocidad tiro > 90) && (precision tiro > 95) && (altura tiro == 0)
+
+lograSuperarObstaculo :: Tiro -> Obstaculo -> Bool
+lograSuperarObstaculo tiro obstaculo
+  | obstaculo == Tunel = puedeSuperarTunel tiro
+  | obstaculo == Laguna = puedeSuperarLaguna tiro
+  | obstaculo == Hoyo = puedeSuperarHoyo tiro
+  | otherwise = tiro{velocidad = 0, precision = 0, altura = 0} == tiro
+
+-- PARTE 4
+
+palosUtiles :: Jugador -> Obstaculo -> Bool -> [Palo]
+palosUtiles jugador obstaculo = filter (\palo -> lograSuperarObstaculo (golpe jugador palo) obstaculo) palos
