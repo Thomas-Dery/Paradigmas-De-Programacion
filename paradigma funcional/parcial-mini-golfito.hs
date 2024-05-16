@@ -81,7 +81,7 @@ puedeSuperarTunel :: Tiro -> Bool
 puedeSuperarTunel tiro = (precision tiro > 90) && (altura tiro == 0)
 
 puedeSuperarLaguna :: Tiro -> Bool
-puedeSuperarLaguna tiro = (velocidad tiro > 80) && (between 1 5 (altura tiro))
+puedeSuperarLaguna tiro = (velocidad tiro > 80) && between 1 5 (altura tiro)
 
 puedeSuperarHoyo :: Tiro -> Bool
 puedeSuperarHoyo tiro = (velocidad tiro > 90) && (precision tiro > 95) && (altura tiro == 0)
@@ -95,5 +95,6 @@ lograSuperarObstaculo tiro obstaculo
 
 -- PARTE 4
 
-palosUtiles :: Jugador -> Obstaculo -> Bool -> [Palo]
-palosUtiles jugador obstaculo = filter (\palo -> lograSuperarObstaculo (golpe jugador palo) obstaculo) palos
+--palosUtiles :: Jugador -> Obstaculo -> Bool -> [Palo]
+--palosUtiles jugador obstaculo = filter (\palo -> lograSuperarObstaculo (golpe jugador palo) obstaculo) palos
+
