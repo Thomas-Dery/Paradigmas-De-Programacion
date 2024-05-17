@@ -55,5 +55,5 @@ efectoCumpleCriterio criterio efecto x
 terremoto :: Auto -> [Auto] -> [Auto]
 terremoto auto1 carrera = afectarALosQueCumplen (estaCerca auto1) (\auto -> bajarVelocidad auto 50) carrera
 
-miguelitos :: Auto -> Int -> [Auto] -> [Auto]
-miguelitos auto1 reduVel carrera = afectarALosQueCumplen (puesto auto1) (bajarVelocidad reduVel) carrera
+-- miguelitos :: Auto -> Int -> [Auto] -> [Auto]
+-- miguelitos auto1 reduVel carrera = afectarALosQueCumplen (\auto -> puesto auto carrera == puesto auto1 carrera) (bajarVelocidad reduVel) carrera
