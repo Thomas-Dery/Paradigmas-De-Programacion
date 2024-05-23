@@ -27,8 +27,8 @@ lobos = "lobos"
 
 intentarCraftear :: Receta -> Jugador ->  Jugador
 intentarCraftear receta jugador
-    | tieneMateriales receta jugador  =  craftear receta jugador
-    | otherwise = alterarPuntaje (-100) jugador
+    | tieneMateriales receta jugador  =  craftear receta jugador 
+    | otherwise = alterarPuntaje (-100) jugador 
 
 craftear :: Receta -> Jugador -> Jugador
 craftear receta = alterarPuntaje (10*tiempo receta).agregarMaterial (resultado receta).quitarMateriales  (materiales receta)
@@ -39,7 +39,7 @@ tieneMateriales :: Receta -> Jugador -> Bool
 tieneMateriales  receta jugador = all (tieneMaterial jugador) (materiales receta)
 
 tieneMaterial :: Jugador -> Material -> Bool
-tieneMaterial jugador material = material `elem` inventario jugador
+tieneMaterial jugador material = elem material (inventario jugador)
 
 agregarMaterial :: Material -> Jugador -> Jugador
 agregarMaterial material jugador = jugador {inventario = material:inventario jugador }
@@ -49,9 +49,9 @@ quitarMateriales materiales jugador = jugador{inventario = foldr quitarUnaVez (i
 
 quitarUnaVez:: Eq a => a -> [a] -> [a]
 quitarUnaVez _ [] = []
-quitarUnaVez material (m:ms)
+quitarUnaVez material (m:ms)  
  | material == m = ms
- | otherwise = m:quitarUnaVez material ms
+ | otherwise = m:quitarUnaVez material ms 
 
 alterarPuntaje :: Int -> Jugador ->  Jugador
 alterarPuntaje n jugador  = jugador {puntaje = puntaje jugador + n}
@@ -61,6 +61,7 @@ Ejemplos:
 ghci> intentarCraftear recetaPollo maria
 UnJugador {nombre = "maria", puntaje = 4000, inventario = ["pollo asado","pollo","sueter"]}
 -}
+
 recetaFogata :: Receta
 recetaFogata = Receta [madera, fosforo] 10 fogata
 
@@ -122,16 +123,16 @@ hacha :: Herramienta
 hacha = last
 
 espada :: Herramienta
-espada = head
+espada = head 
 
 pico :: Int -> Herramienta
-pico = flip (!!)
-
+pico = flip (!!) 
+    
 posicionMitad :: Herramienta
 posicionMitad lista = pico (length lista `div` 2) lista
 
 minar :: Herramienta -> Bioma -> Jugador  -> Jugador
-minar herramienta bioma jugador
+minar herramienta bioma jugador 
     | tieneMaterial jugador (materialNecesario bioma)  = agregarMaterial (herramienta (materialesPresentes bioma)) (alterarPuntaje 50 jugador)
     | otherwise = jugador
 {-
