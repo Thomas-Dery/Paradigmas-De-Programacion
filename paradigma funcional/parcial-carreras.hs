@@ -1,59 +1,110 @@
+-- module Library where
+-- import Data.List
+-- import Data.Fixed (Fixed)
 
-data Auto = UnAuto {
-    color :: String,
-    velocidad :: Int,
-    distancia :: Int
-}deriving (Show, Eq)
+-- data Auto = UnAuto{
+--   color :: String,
+--     distancia :: Number
+-- } deriving (Show,Eq)
 
-type Carrera = [Auto]
+-- type Carrera = [Auto]
 
-carrera1 :: Carrera
-carrera1 = [UnAuto "Rojo" 100 0, UnAuto "Azul" 120 0, UnAuto "Verde" 80 0]
+-- -- Ejercicio 1)
 
-carrera2 :: Carrera
-carrera2 = [UnAuto "Rojo" 300 70, UnAuto "Azul" 50 100, UnAuto "Verde" 67 10]
+-- estaCerca :: Auto -> Auto -> Bool
+-- estaCerca auto otroAuto = (abs (distancia auto - distancia otroAuto) < 10) && (auto /= otroAuto)
+
+-- vaTranquilo :: Auto -> Carrera -> Bool
+-- vaTranquilo auto carrera = all (not.(estaCerca auto)) carrera && (distancia auto) == maximum (listaDistancias carrera)
+
+-- listaDistancias = map distancia
+
+-- posicionDeUnAuto :: Auto -> Carrera -> Number
+-- posicionDeUnAuto auto carrera =  (length carrera) - (length.(filter (not.leGana auto))) carrera + 1
+
+-- leGana :: Auto -> Auto -> Bool
+-- leGana otroAuto auto = distancia auto > distancia otroAuto
+-- -- Pregunta si Auto le gana a OtroAuto
+
+-- -- Ejercicio 2)
+
+-- correr :: Number -> Auto -> Auto
+-- correr tiempo auto = auto{distancia = distancia auto + (tiempo * velocidad auto)}
+
+-- alterarVelocidad :: (Number -> Number) -> Auto -> Auto
+-- alterarVelocidad funcion auto = auto{velocidad = max 0 (funcion (velocidad auto))}
+
+-- bajarVelocidad  :: Number -> Auto -> Auto
+-- bajarVelocidad numero auto = alterarVelocidad (flip (-) numero) auto
 
 
+-- -- Ejercicio 3)
 
--- Punto 1
-listaDistancias :: [Auto] -> [Int]
-listaDistancias = map distancia
+-- type PowerUp = Auto -> Carrera -> Carrera
 
-maximaDistancia :: Carrera -> Int
-maximaDistancia = maximum . listaDistancias
+-- terremoto :: PowerUp
+-- terremoto auto carrera = afectarALosQueCumplen (estaCerca auto) (bajarVelocidad 50) carrera
 
-estaCerca :: Auto -> Auto -> Bool
-estaCerca auto1 auto2 = (abs (distancia auto1 - distancia auto2) < 10) && (auto1 /= auto2)
 
-vaTranquilo :: Auto -> Carrera -> Bool
-vaTranquilo auto1 carrera = all (not . estaCerca auto1) carrera && (distancia auto1 == maximaDistancia carrera)
+-- miguelitos :: Number -> PowerUp
+-- miguelitos reduccion auto carrera = afectarALosQueCumplen (leGana auto) (bajarVelocidad reduccion) carrera
 
-puesto :: Auto -> Carrera -> Int
-puesto auto1 carrera = length (filter (\auto2 -> distancia auto1 < distancia auto2) carrera) + 1
+-- jetPack :: Number -> PowerUp
+-- jetPack tiempo auto carrera = afectarALosQueCumplen (==auto) (cambiosJetPack tiempo) carrera
 
--- Punto 2
+-- cambiosJetPack :: Number -> Auto -> Auto
+-- cambiosJetPack tiempo auto = auto {distancia = distancia (correr tiempo (alterarVelocidad (*2) auto))}
 
-correrDuranteCiertoTiempo :: Auto -> Int -> Auto
-correrDuranteCiertoTiempo auto1 tiempo = auto1{distancia = (tiempo * velocidad auto1) + distancia auto1}
+-- afectarALosQueCumplen :: (a -> Bool) -> (a -> a) -> [a] -> [a]
+-- afectarALosQueCumplen criterio efecto lista = 
+--     map (efectoSiCumpleCriterio criterio efecto) lista
 
-alterarVelocidad :: (Int -> Int) -> Auto -> Auto
-alterarVelocidad modificador auto = auto { velocidad = max 0 (modificador (velocidad auto)) }
+-- efectoSiCumpleCriterio :: (a -> Bool) -> (a -> a) -> a -> a
+-- efectoSiCumpleCriterio criterio efecto x
+--     | criterio x = efecto x
+--     | otherwise = x
 
-bajarVelocidad :: Auto -> Int -> Auto
-bajarVelocidad auto reduccion = alterarVelocidad (\velocidad -> velocidad - reduccion) auto
 
--- Punto 3
+-- -- Ejercicio 4)
+-- -- Ejercicio 4)A)
 
-afectarALosQueCumplen :: (a -> Bool) -> (a -> a) -> [a] -> [a] 
-afectarALosQueCumplen condicion efecto lista = map (efectoCumpleCriterio condicion efecto) lista
+-- simularCarrera :: Carrera -> [(Carrera -> Carrera)] -> [(Number,String)] -- [(Pos,Color)]
+-- simularCarrera carrera eventos = obtenerPosiciones (aplicarListaEventos carrera eventos)
 
-efectoCumpleCriterio :: (a -> Bool) -> (a -> a) -> a -> a
-efectoCumpleCriterio criterio efecto x
-  | criterio x = efecto x
-  | otherwise = x
+-- obtenerPosiciones :: Carrera -> [(Number,String)]
+-- obtenerPosiciones carrera = map (\x -> (posicionDeUnAuto x carrera,color x)) carrera
 
-terremoto :: Auto -> [Auto] -> [Auto]
-terremoto auto1 carrera = afectarALosQueCumplen (estaCerca auto1) (\auto -> bajarVelocidad auto 50) carrera
+-- aplicarListaEventos :: Carrera -> [(Carrera -> Carrera)] -> Carrera
+-- aplicarListaEventos carrera [] = carrera
+-- aplicarListaEventos carrera (x:xs) = aplicarListaEventos (x carrera) xs
 
-miguelitos :: Auto -> Int -> [Auto] -> [Auto]
-miguelitos auto1 reduVel carrera = afectarALosQueCumplen (puesto auto1) (bajarVelocidad reduVel) carrera
+-- -- Ejercicio 4)B)
+
+-- correnTodos :: Number -> Carrera -> Carrera
+-- correnTodos tiempo carrera = map (correr tiempo) carrera
+
+-- usaPowerUp :: PowerUp -> String -> Carrera -> Carrera
+-- usaPowerUp powerUp colorBusco carrera = powerUp (obtenerAutoPorColor colorBusco carrera) carrera
+
+-- obtenerAutoPorColor :: String -> Carrera -> Auto
+-- obtenerAutoPorColor colorBuscado = head.(filter ((==colorBuscado).(color)))
+
+-- mercedes = UnAuto "Rojo" 120 0
+-- ford = UnAuto "Blanco" 120 0
+-- chevrolet = UnAuto "Azul" 120 0
+-- fiat = UnAuto "Negro" 120 0
+
+-- carrera1 = [mercedes,ford,chevrolet,fiat]
+-- eventos1 = [(correnTodos 30),(usaPowerUp (jetPack 3) "Azul" ),(usaPowerUp terremoto "Blanco"),(correnTodos 40),
+--             (usaPowerUp (miguelitos 20) "Blanco"),(usaPowerUp (jetPack 6) "Negro"),(correnTodos 10)]
+
+-- {-
+-- 5) En base a tu solución, responder:
+--     a) Si se quisiera agregar un nuevo power up, un misil teledirigido, que para poder activarlo se deba indicar el 
+--     color del auto al que se quiere impactar, ¿la solución actual lo permite o sería necesario cambiar algo de lo
+--     desarrollado en los puntos anteriores? Justificar.
+--         Podria agregarse esa nueva funcion. Por ahi, para que resulte mas comodo, habria que agregar algunba funcion auxiliar
+--     b) Si una carrera se conformara por infinitos autos, ¿sería posible usar las funciones del punto 1b y 1c de modo
+--     que terminen de evaluarse? Justificar.
+--         No seria posible. En ambos casos, debe leer la lista entera. Ya sea para averiguar su longitud o para comparar un elemento con el resto
+-- -}

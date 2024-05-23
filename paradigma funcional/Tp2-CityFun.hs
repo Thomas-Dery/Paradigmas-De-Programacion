@@ -128,34 +128,34 @@ valorSube ciudad anio = anioParaRecordar (anio{eventos = filter (\evento -> algo
 -- Acá solo queremos aplicar los eventos que aumenten su valor, lo cual nosotros consideramos que es que haya una remodelacion en la cual se le agregue "New", que se le agreguen atracciones a la ciudad, 
 -- o que aumente el costoDeVida. Usamos || porque la remodelacion y sumar atracciones no restan costoDeVida 
 
---PARTE 5
-ordenarEventos :: Anio -> Ciudad -> Bool
-ordenarEventos anio = separacionEventos (eventos anio)
+-- --PARTE 5
+-- ordenarEventos :: Anio -> Ciudad -> Bool
+-- ordenarEventos anio = separacionEventos (eventos anio)
 
-separacionEventos :: [Evento] -> Ciudad -> Bool
---separacionEventos [] _ = True
-separacionEventos [evento] _ = True
---separacionEventos (evento1:evento2:eventos) ciudad = costoDeVida (evento1 ciudad) < costoDeVida (evento2 ciudad) && separacionEventos (evento2:eventos) ciudad
-separacionEventos (evento1:evento2:eventos) ciudad = comparacionCostoDeVida (evento1 ciudad) (evento2 ciudad) && separacionEventos (evento2:eventos) ciudad
+-- separacionEventos :: [Evento] -> Ciudad -> Bool
+-- --separacionEventos [] _ = True
+-- separacionEventos [evento] _ = True
+-- --separacionEventos (evento1:evento2:eventos) ciudad = costoDeVida (evento1 ciudad) < costoDeVida (evento2 ciudad) && separacionEventos (evento2:eventos) ciudad
+-- separacionEventos (evento1:evento2:eventos) ciudad = comparacionCostoDeVida (evento1 ciudad) (evento2 ciudad) && separacionEventos (evento2:eventos) ciudad
 
-ordenarCiudades :: [Ciudad] -> Evento -> Bool
---ordenarCiudades [] _ = True
-ordenarCiudades [ciudad] _ = True
---ordenarCiudades (ciudad1:ciudad2:ciudades) evento = costoDeVida (evento ciudad1) < costoDeVida (evento ciudad2) && ordenarCiudades (ciudad2:ciudades) evento
-ordenarCiudades (ciudad1:ciudad2:ciudades) evento = comparacionCostoDeVida (evento ciudad1) (evento ciudad2) && ordenarCiudades (ciudad2:ciudades) evento
+-- ordenarCiudades :: [Ciudad] -> Evento -> Bool
+-- --ordenarCiudades [] _ = True
+-- ordenarCiudades [ciudad] _ = True
+-- --ordenarCiudades (ciudad1:ciudad2:ciudades) evento = costoDeVida (evento ciudad1) < costoDeVida (evento ciudad2) && ordenarCiudades (ciudad2:ciudades) evento
+-- ordenarCiudades (ciudad1:ciudad2:ciudades) evento = comparacionCostoDeVida (evento ciudad1) (evento ciudad2) && ordenarCiudades (ciudad2:ciudades) evento
 
-ordenarAnios :: [Anio] -> Ciudad -> Bool
-ordenarAnios [anio] _ = True
---ordenarAnios (anio1:anio2:anios) ciudad = costoDeVida (anioParaRecordar anio1 ciudad) < costoDeVida (anioParaRecordar anio2 ciudad) && ordenarAnios (anio2:anios) ciudad
-ordenarAnios (anio1:anio2:anios) ciudad = comparacionCostoDeVida (anioParaRecordar anio1 ciudad) (anioParaRecordar anio2 ciudad) && ordenarAnios (anio2:anios) ciudad
+-- ordenarAnios :: [Anio] -> Ciudad -> Bool
+-- ordenarAnios [anio] _ = True
+-- --ordenarAnios (anio1:anio2:anios) ciudad = costoDeVida (anioParaRecordar anio1 ciudad) < costoDeVida (anioParaRecordar anio2 ciudad) && ordenarAnios (anio2:anios) ciudad
+-- ordenarAnios (anio1:anio2:anios) ciudad = comparacionCostoDeVida (anioParaRecordar anio1 ciudad) (anioParaRecordar anio2 ciudad) && ordenarAnios (anio2:anios) ciudad
 
---PARTE 6
-anio2024 :: Anio
-anio2024 = UnAnio 2024 eventosInfinitos
+-- --PARTE 6
+-- anio2024 :: Anio
+-- anio2024 = UnAnio 2024 eventosInfinitos
 
-eventosInfinitos :: [Evento]
-eventosInfinitos = cycle [crisisCiudad, sumarAtraccion "parque", remodelarCiudad 10, remodelarCiudad 20]  --eventos2023->False
---eventosInfinitos = cycle [crisisCiudad, crisisCiudad, crisisCiudad] --> False
+-- eventosInfinitos :: [Evento]
+-- eventosInfinitos = cycle [crisisCiudad, sumarAtraccion "parque", remodelarCiudad 10, remodelarCiudad 20]  --eventos2023->False
+-- --eventosInfinitos = cycle [crisisCiudad, crisisCiudad, crisisCiudad] --> False
 
 --EVENTOS ORDENADOR RESP: Siempre y cuando la lista infinita no este infinitamente ordenada, la funcion ordenarEventos funcionara por
 -- la evaluacion perezosa de haskell, ya que si la comparacion de la izquierda del && da False, no se molestara en seguir revisando el resto de la lista
