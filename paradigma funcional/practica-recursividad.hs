@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 
 data Torneo = UnTorneo {
     participantes :: [Equipo]
@@ -23,13 +25,14 @@ racing = UnEquipo "racing" 4
 chacarita ::Equipo
 chacarita = UnEquipo "chacarita" 0
 
-ganadorTorneo :: Torneo -> Equipo
-ganadorTorneo torneo = foldr compararPuntos chacarita (participantes torneo)
+-- ganadorTorneo :: Torneo -> Equipo
+-- ganadorTorneo torneo = foldr compararPuntos chacarita (participantes torneo)
 
-compararPuntos :: Equipo -> Equipo -> Equipo
-compararPuntos equipo1 equipo2 
-    | puntos equipo1 < puntos equipo2 = equipo2
-    | puntos equipo1 >= puntos equipo2 = equipo1
+
+-- compararPuntos :: Equipo -> Equipo -> Equipo
+-- compararPuntos equipo1 equipo2 
+--     | puntos equipo1 < puntos equipo2 = equipo2
+--     | puntos equipo1 >= puntos equipo2 = equipo1
 
 
 
