@@ -49,6 +49,14 @@ pais(indonesia, oceania).
 pais(nueva_guinea, oceania).
 pais(australia, oceania).
 
+% ejemplos mios
+
+pais(aguero, latam).
+pais(messi, latam).
+
+pais(colidio, river).
+pais(barco, river).
+
 % Conexiones
 limita(alaska, yukon).
 limita(alaska, kamchatka).
@@ -167,8 +175,3 @@ limita(_, _). ---devuelve--- si algun pais limita con otro devuelve true
 limita(Pais, argentina). es distinto de limita(argentina, Pais).
 
 */
-sonLimitrofes(P1, P2) :- limita(P1, P2).
-sonLimitrofes(P1, P2) :- limita(P2, P1).
-
-limitaConOtroContinente(P1) :- pais(P1, C1), pais(P2, C2), sonLimitrofes(P1, P2), C1 \= C2.
-

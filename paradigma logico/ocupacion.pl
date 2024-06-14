@@ -46,3 +46,11 @@ ocupa(blanco, sudeste_asiatico, 2).
 ocupa(rojo, indonesia, 3).
 ocupa(azul, nueva_guinea, 1).
 ocupa(verde, australia, 2).
+
+
+% ejemplos mios
+
+ocupa(arcoiris, messi, 5).
+ocupa(arcoiris, aguero, 3).
+ocupa(arcoiris, colidio, 1).
+ocupa(arcoiris, barco, 10).

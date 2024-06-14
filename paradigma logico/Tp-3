@@ -1,0 +1,43 @@
+modelo(ana, romanos, herreria).
+modelo(ana, romanos, forja).
+modelo(ana, romanos, emplumado).
+modelo(ana, romanos, laminas). 
+
+modelo(beto, incas, herreria).
+modelo(beto, incas, forja).
+modelo(beto, incas, fundicion).
+
+modelo(carola, romanos, herreria).
+
+modelo(dimitri, romanos, herreria).
+modelo(dimitri, romanos, fundicion).
+
+%modelo(elsa, _, _).
+
+% 2)
+expertoEnMetales(Jugador) :-
+    modelo(Jugador, _, herreria),
+    modelo(Jugador, _, forja),
+    modelo(Jugador, _, fundicion).
+expertoEnMetales(Jugador) :-
+    modelo(Jugador, _, herreria),
+    modelo(Jugador, _, forja),
+    modelo(Jugador, romanos, _).
+
+% 3)
+civilizacionPopular(Civilizacion) :-
+    modelo(Jugador1, Civilizacion, _),
+    modelo(Jugador2, Civilizacion, _),
+    /*Jugador1 \= elsa,
+    Jugador2 \= elsa,*/
+    Jugador1 \= Jugador2.
+
+% 4) no existe un jugador que no tenga esta tecnologia
+alcanceGlobal(Tecnologia) :-
+    modelo(_, _, Tecnologia),
+    not((modelo(Jugador, _, _), not(modelo(Jugador, _, Tecnologia)))).
+
+% 5) no existe una civilizacion con una tecnologia que no haya alcanzado esta civilizacion
+civilizacionLider(Civilizacion) :-
+    modelo(_, Civilizacion, _),
+    not((modelo(_, _, Tecnologia), not(modelo(_, Civilizacion, Tecnologia)))).
