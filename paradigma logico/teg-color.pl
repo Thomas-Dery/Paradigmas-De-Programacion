@@ -76,7 +76,7 @@ conquistado1(Continente, Color) :-
     pais(_, Continente),
     forall(pais(Pais, Continente), ocupa(Color, Pais, _)). % para todos los países en un continente, el color ocupa ese país"
 
-% si quiero ver si el continente que yo elijo esta conquistado por el mismo colo (no me importa que color es)
+% si quiero ver si el continente que yo elijo esta conquistado por el mismo color (no me importa que color es)
 conquistado2(Continente) :-
     ocupa(Color, _, _),
     pais(_, Continente),
@@ -90,3 +90,14 @@ conquistado_Continentes(Continente1, Continente2, Color) :-
 
 % conquistadoContinente_y_UnPedacito(Continente1, Continente2) :-
 %     pais(Pais, Continete1).
+
+
+
+% Funcion propia
+
+mismaLetraInicial(Pais1, Pais2) :-
+    pais(Pais1, _),
+    pais(Pais2, _),
+    sub_atom(Pais1, 0, 1, _, Letra1), % el 0 indica que se sacara el atomo de la posicion 0 y el 1 representa que el atomo a sacar termina en la posicion 1
+    sub_atom(Pais2, 0, 1, _, Letra2), % 
+    Letra1 = Letra2.
