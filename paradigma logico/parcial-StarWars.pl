@@ -115,7 +115,7 @@ dispositivoReconocible(Dispositivo) :-
     esDispositivo(Dispositivo),
     aparecioEnMasDeTresPelis(Dispositivo).
 
-esDispositivo(Dispositivo) :-
+
 
 
 
