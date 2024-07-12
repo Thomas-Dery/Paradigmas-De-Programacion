@@ -118,6 +118,9 @@ dispositivoReconocible(Dispositivo) :-
 esDispositivo(Dispositivo) :-
 
 
+aparecioEnMasDeTresPelis(Dispositivo) :-
+    findall(Episodio, (elementosPresentes(Episodio, Dispositivos)),)
+
 
 nuevoEpisodio(Heroe, Villano, Extra, Dispositivo) :-
     apareceEn(Heroe, Episodio, luminoso).
