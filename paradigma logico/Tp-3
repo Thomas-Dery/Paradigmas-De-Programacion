@@ -1,43 +1,161 @@
-modelo(ana, romanos, herreria).
-modelo(ana, romanos, forja).
-modelo(ana, romanos, emplumado).
-modelo(ana, romanos, laminas). 
+jugador(ana, romanos).
+tecnologiaDesarrollada(ana, herreria).
+tecnologiaDesarrollada(ana, forja).
+tecnologiaDesarrollada(ana, emplumado).
+tecnologiaDesarrollada(ana, laminas). 
 
-modelo(beto, incas, herreria).
-modelo(beto, incas, forja).
-modelo(beto, incas, fundicion).
+jugador(beto, incas).
+tecnologiaDesarrollada(beto, herreria).
+tecnologiaDesarrollada(beto, forja).
+tecnologiaDesarrollada(beto, fundicion).
 
-modelo(carola, romanos, herreria).
+jugador(carola, romanos).
+tecnologiaDesarrollada(carola, herreria).
 
-modelo(dimitri, romanos, herreria).
-modelo(dimitri, romanos, fundicion).
+jugador(dimitri, romanos).
+tecnologiaDesarrollada(dimitri, herreria).
+tecnologiaDesarrollada(dimitri, fundicion).
 
 %modelo(elsa, _, _).
 
 % 2)
 expertoEnMetales(Jugador) :-
-    modelo(Jugador, _, herreria),
-    modelo(Jugador, _, forja),
-    modelo(Jugador, _, fundicion).
+    tecnologiaDesarrollada(Jugador, herreria),
+    tecnologiaDesarrollada(Jugador, forja),
+    tecnologiaDesarrollada(Jugador, fundicion).
 expertoEnMetales(Jugador) :-
-    modelo(Jugador, _, herreria),
-    modelo(Jugador, _, forja),
-    modelo(Jugador, romanos, _).
+    tecnologiaDesarrollada(Jugador, herreria),
+    tecnologiaDesarrollada(Jugador, forja),
+    jugador(Jugador, romanos).
 
 % 3)
 civilizacionPopular(Civilizacion) :-
-    modelo(Jugador1, Civilizacion, _),
-    modelo(Jugador2, Civilizacion, _),
+    jugador(Jugador1, Civilizacion),
+    jugador(Jugador2, Civilizacion),
     /*Jugador1 \= elsa,
     Jugador2 \= elsa,*/
     Jugador1 \= Jugador2.
 
 % 4) no existe un jugador que no tenga esta tecnologia
 alcanceGlobal(Tecnologia) :-
-    modelo(_, _, Tecnologia),
-    not((modelo(Jugador, _, _), not(modelo(Jugador, _, Tecnologia)))).
+  tecnologias(Tecnologia),
+  not((tecnologiaDesarrollada(Jugador, _), not(tecnologiaDesarrollada(Jugador, Tecnologia)))).
 
 % 5) no existe una civilizacion con una tecnologia que no haya alcanzado esta civilizacion
 civilizacionLider(Civilizacion) :-
-    modelo(_, Civilizacion, _),
-    not((modelo(_, _, Tecnologia), not(modelo(_, Civilizacion, Tecnologia)))).
+  jugador(_, Civilizacion),
+  not((civilizacionTecnologica(_, Tecnologia), not(civilizacionTecnologica(Civilizacion, Tecnologia)))).
+
+civilizacionTecnologica(Civilizacion, Tecnologia):-
+  jugador(Jugador, Civilizacion),
+  tecnologiaDesarrollada(Jugador, Tecnologia).
+
+% PARTE 2
+soldadosPropios(ana, jinete(caballo)).
+soldadosPropios(ana, piquero(1, 1)).
+soldadosPropios(ana, piquero(2, 0)).
+
+soldadosPropios(beto, campeon(100)).
+soldadosPropios(beto, campeon(80)).
+soldadosPropios(beto, piquero(1, 1)).
+soldadosPropios(beto, jinete(camello)).
+
+soldadosPropios(carola, piquero(3, 0)).
+soldadosPropios(carola, piquero(2, 1)).
+
+% 7_ unidad con mas vida de un jugador
+vidaUnidad(jinete(camello), 80).
+vidaUnidad(jinete(caballo), 90).
+vidaUnidad(campeon(Vida), Vida).
+vidaUnidad(piquero(1, 0), 50).
+vidaUnidad(piquero(2, 0), 65).
+vidaUnidad(piquero(3, 0), 70).
+vidaUnidad(piquero(1, 1), Vida):- porcentajeVida(1, Vida).
+vidaUnidad(piquero(2, 1), Vida):- porcentajeVida(2, Vida).
+vidaUnidad(piquero(3, 1), Vida):- porcentajeVida(3, Vida).
+
+porcentajeVida(Nivel, Vida):-
+  vidaUnidad(piquero(Nivel, 0), VidaSinEscudo),
+  Vida is VidaSinEscudo * (1.1).
+
+unidadConMasVida(Jugador, UnidadConMasVida):-
+  soldadosPropios(Jugador, UnidadConMasVida),
+  vidaUnidad(UnidadConMasVida, VidaMax),
+  forall(soldadosPropios(Jugador, Unidad), (vidaUnidad(Unidad, Vida), VidaMax >= Vida)).
+
+% 8 unidad le gana a otra
+% Queremos saber si una unidad le gana a otra. Las unidades tienen una ventaja por tipo sobre otras. Cualquier jinete le gana a cualquier campeón, cualquier campeón le gana a cualquier piquero y cualquier piquero le gana a cualquier jinete, pero los jinetes a camello le ganan a los a caballo. En caso de que no exista ventaja entre las unidades, se compara la vida (el de mayor vida gana). 
+% Este punto no necesita ser inversible.
+tieneVentaja(jinete(_), campeon(_)).
+tieneVentaja(campeon(_), piquero(_, _)).
+tieneVentaja(piquero(_, _), jinete(_)).
+tieneVentaja(jinete(camello), jinete(caballo)).
+
+unidadGanadora(Unidad1, Unidad2):-
+  tieneVentaja(Unidad1, Unidad2).
+unidadGanadora(Unidad1, Unidad2):-
+  vidaUnidad(Unidad1, Vida1),
+  vidaUnidad(Unidad2, Vida2),
+  Vida1 > Vida2.
+
+% 9 Saber si un jugador puede sobrevivir a un asedio. 
+% Esto ocurre si tiene más piqueros con escudo que sin escudo.
+
+/*sobreviveAsedio(Jugador) :-
+  jugador(Jugador, _),
+  findall(Unidad, (soldadosPropios(Jugador, Unidad), Unidad = piquero(_,1)), PiquerosSinEscudo),
+  findall(Unidad, (soldadosPropios(Jugador, Unidad), Unidad = piquero(_,0)), PiquerosConEscudo),
+  length(PiquerosConEscudo, CantPiquerosConEscudo),
+  length(PiquerosSinEscudo, CantPiquerosSinEscudo),
+  CantPiquerosConEscudo > CantPiquerosSinEscudo.*/
+
+sobreviveAsedio(Jugador) :-
+  jugador(Jugador, _),
+  findall(Unidad, (soldadosPropios(Jugador, Unidad), Unidad = piquero(_,_)), Piqueros),
+  
+
+% 10) arbol de tecnologias
+tecSinDependencia(herreria).
+tecSinDependencia(molino).
+dependenciaTecnologica(collera, molino).
+dependenciaTecnologica(arado, collera).
+dependenciaTecnologica(punzon, emplumado).
+dependenciaTecnologica(emplumado, herreria).
+dependenciaTecnologica(horno, fundicion).
+dependenciaTecnologica(fundicion, forja).
+dependenciaTecnologica(forja, herreria).
+dependenciaTecnologica(placas, malla).
+dependenciaTecnologica(malla, laminas).
+dependenciaTecnologica(laminas, herreria).
+
+
+jugador(edu, incas).
+tecnologiaDesarrollada(edu, incas, herreria).
+tecnologiaDesarrollada(edu, incas, emplumado).
+tecnologiaDesarrollada(edu, incas, collera).
+
+tecnologias(herreria).
+tecnologias(forja).
+tecnologias(fundicion).
+tecnologias(horno).
+tecnologias(emplumado).
+tecnologias(punzon).
+tecnologias(laminas).
+tecnologias(malla).
+tecnologias(placas).
+tecnologias(molino).
+tecnologias(collera).
+tecnologias(arado).
+
+saberSiPuedeDesarrollarTec(Jugador, Tecnologia) :-
+  tecnologias(Tecnologia),
+  jugador(Jugador, _),
+  not(tecnologiaDesarrollada(Jugador, _, Tecnologia)),
+  verificarDependencias(Jugador, Tecnologia).
+
+verificarDependencias(Jugador, Tecnologia) :-
+  tecSinDependencia(Tecnologia).
+verificarDependencias(Jugador, Tecnologia) :-
+  dependenciaTecnologica(Tecnologia, TecDependiente),
+  tecnologiaDesarrollada(Jugador, _, TecDependiente),
+  verificarDependencias(Jugador, TecDependiente).
