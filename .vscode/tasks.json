@@ -1,7 +1,4 @@
-
 {
-  // Automatically created by phoityne-vscode extension.
-
   "version": "2.0.0",
   "presentation": {
     "reveal": "always",
@@ -9,42 +6,44 @@
   },
   "tasks": [
     {
-      // F7
+      "label": "haskell build",
+      "type": "shell",
+      "command": "stack build",
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "label": "haskell build",
-      "type": "shell",
-      //"command": "cabal configure && cabal build"
-      "command": "stack build"
+      }
     },
     {
-      // F6
-      "group": "build",
-      "type": "shell",
       "label": "haskell clean & build",
-      //"command": "cabal clean && cabal configure && cabal build"
-      "command": "stack clean && stack build"
-      //"command": "stack clean ; stack build"  // for powershell
+      "type": "shell",
+      "command": "stack clean && stack build",
+      "group": "build"
     },
     {
-      // F8
+      "label": "haskell test",
+      "type": "shell",
+      "command": "stack test",
       "group": {
         "kind": "test",
         "isDefault": true
-      },
-      "type": "shell",
-      "label": "haskell test",
-      //"command": "cabal test"
-      "command": "stack test"
+      }
     },
     {
-      // F6
-      "isBackground": true,
-      "type": "shell",
       "label": "haskell watch",
-      "command": "stack build --test --no-run-tests --file-watch"
+      "type": "shell",
+      "command": "stack build --test --no-run-tests --file-watch",
+      "isBackground": true
+    },
+    {
+      "label": "Run Wollok",
+      "type": "shell",
+      "command": "wollok-cli run path/to/your/file.wlk", // Reemplaza con la ruta a tu archivo Wollok
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "problemMatcher": []
     }
   ]
 }
