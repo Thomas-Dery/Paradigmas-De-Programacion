@@ -1,0 +1,38 @@
+import pepita.*
+import wollok.game.*
+
+program PepitaGame2 {
+
+    game.title("Pepita2")
+    game.width(20)
+    game.height(20)
+    game.boardGround('bosque.jpg')
+
+    game.addVisual(pepita)
+    game.addVisual(alpiste)
+    game.addVisual(manzana)
+
+    keyboard.right().onPressDo({ pepita.position(pepita.position().right(1))   // Mover a la derecha
+    })
+
+    keyboard.left().onPressDo({ pepita.position(pepita.position().left(1))   // Mover a la izquierda
+    })
+
+    keyboard.up().onPressDo({ pepita.position(pepita.position().up(1))   // Mover hacia arriba
+    })
+
+    keyboard.down().onPressDo({ pepita.position(pepita.position().down(1))   // Mover hacia abajo
+    })
+
+    game.onTick(2000, "baja", { pepita.position(pepita.position().down(1)) })
+
+    var comida = game.colliders(pepita).first()   
+
+    keyboard.c().onPressDo({
+        if ((!game.colliders(pepita).first()).isEmpty(){
+            pepita.comer(comida)
+        })
+    })
+
+    game.start()
+}

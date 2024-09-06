@@ -35,15 +35,15 @@
       "command": "stack build --test --no-run-tests --file-watch",
       "isBackground": true
     },
-    {
-      "label": "Run Wollok",
-      "type": "shell",
-      "command": "wollok-cli run path/to/your/file.wlk", // Reemplaza con la ruta a tu archivo Wollok
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      },
-      "problemMatcher": []
-    }
+    // {
+    //   "label": "Run Wollok",
+    //   "type": "shell",
+    //   "command": "wollok-cli run path/to/your/file.wlk", // Reemplaza con la ruta a tu archivo Wollok
+    //   "group": {
+    //     "kind": "build",
+    //     "isDefault": false
+    //   },
+    //   "problemMatcher": []
+    // }
   ]
 }

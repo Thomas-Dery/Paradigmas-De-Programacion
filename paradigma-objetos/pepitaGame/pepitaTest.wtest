@@ -1,0 +1,30 @@
+// import pepita.*
+
+// test "comer manzana, ya no esta cansada" {
+//   pepita.volar(9)
+//   pepita.comer(manzana)
+
+//   assert.notThat(pepita.estaCansada())
+// }
+
+
+// test "Cuando llega al 100% de maduracion otroga 100 calorias" {
+//   10.times( _ => manzana.madurar()) 
+
+//   assert.equals(100, manzana.energia())
+// }
+
+// test "Pierde 20 calorias al madurar" {
+//   10.times( _ => manzana.madurar())
+
+//   manzana.madurar()
+
+//   assert.equals(80, manzana.energia())
+// }
+
+// test "No puede otorgar menos de 0 calorias" {
+//   10.times(_ => manzana.madurar())
+//   manzana.madurar()
+
+//   assert.notThat(manzana.energia() < 0)
+// }

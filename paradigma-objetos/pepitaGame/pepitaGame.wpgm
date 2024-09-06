@@ -1,0 +1,32 @@
+import pepita.*
+import wollok.game.*
+
+program PepitaGame {
+game.title("Pepita")
+game.height(10)
+game.width(10)
+game.boardGround("fondo1.jpg")
+
+game.addVisual(pepita)
+// game.addVisualCharacter(pepita)
+
+keyboard.right().onPressDo({
+    pepita.position(pepita.position().right(1))   // setter ( getter . right )   getter = (1, 8)   right = (2, 8)
+})
+
+keyboard.left().onPressDo({
+    pepita.position(pepita.position().left(1))   // setter ( getter . right )   getter = (1, 8)   left = (0, 8)
+})
+
+keyboard.space().onPressDo({
+    game.say(pepita, 
+        if (pepita.estaCansada()) "Estoy cansado jefe" 
+        else "Volar cual cohete, atacar como bolido")
+})
+
+game.onTick(2000, "movimiento", {
+    pepita.position(pepita.position().down(1))  // mueve a pepita hacia abajo cada 2000 milisegundos, y esta accion tiene el nombre de "movimiento"
+})
+
+game.start()
+}
