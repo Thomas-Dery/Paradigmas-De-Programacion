@@ -1,0 +1,60 @@
+import tomyjerry.* 
+
+test "Al inicio, la velocidad máxima de Tom es 10"{
+    assert.equals(10, tom.velocidadMaxima())
+}
+
+test "Al comer a Jerry, la velocidad máxima de Tom es 15.2"{
+    tom.comer(jerry)
+
+    assert.equals(15.2, tom.velocidadMaxima())
+}
+
+test "Si corre 24 metros, entonces su velocidad máxima pasa a ser 14"{
+    tom.comer(jerry)
+    tom.correr(24)
+
+    assert.equals(14, tom.velocidadMaxima())
+}
+
+test "Al comer a Nibbles, la velocidad máxima de Tom es 18.7"{
+    tom.comer(jerry)
+    tom.correr(24)
+    tom.comer(nibbles)
+
+    assert.equals(18.7, tom.velocidadMaxima())
+}
+
+test "Si jerry cumple 3 anios, y luego tom lo vuelve a comer, pasaría a tener 25.9"{
+    tom.comer(jerry)
+    tom.correr(24)
+    tom.comer(nibbles)
+    jerry.edad(3)
+    tom.comer(jerry)
+
+    assert.equals(25.9, tom.velocidadMaxima())
+}
+
+test "Si corre 38 metros, entonces su velocidad máxima pasa a ser 24"{
+    tom.comer(jerry)
+    tom.correr(24)
+    tom.comer(nibbles)
+    jerry.edad(3)
+    tom.comer(jerry)
+    tom.correr(38)
+
+    assert.equals(24, tom.velocidadMaxima())
+}
+
+test "Al inicio, Tom no puede comer a Jerry si está a 120 metros, tampoco quiere comerlo porque no puede"{
+    assert.notThat(tom.puedeComerRaton(120) && tom.quiereComerRaton(jerry, 120))
+}
+
+test "Tom puede comer a Nibbles está a 96 de distancia, pero no lo va a querer comer"{
+    assert.that(tom.puedeComerRaton(96))
+    assert.notThat(tom.quiereComerRaton(nibbles, 96))
+}
+
+test "Si Nibbles está a 60 metros, tom lo puede comer y también lo va a querer comer"{
+    assert.that(tom.puedeComerRaton(60) && tom.quiereComerRaton(nibbles, 60))
+}
