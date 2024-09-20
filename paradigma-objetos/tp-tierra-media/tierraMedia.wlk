@@ -1,78 +1,77 @@
-
 object gandalf {
-    var property vida = 100
-    var poderPersonaje = 0
+  var property vida = 100
+  var poderPersonaje = 0
 
-    method getPoder() = poderPersonaje
-    method setPoder(){
-      poderPersonaje = self.poderPersonaje()
+  method getPoder() = poderPersonaje
+  method setPoder(){
+    if(vida < 10){
+      poderPersonaje = vida * 300 + (armas.sum({unArma => unArma.getPoder()})) * 2
     }
-
-    method cambiarVida(num) {
-      vida += num
+    else{
+      poderPersonaje = vida * 15 + (armas.sum({unArma => unArma.getPoder()})) * 2
     }
+  }
 
-    const armas = []
+  method cambiarVida(num) {
+    vida += num
+  }
 
-    method getArmas() = armas 
+  const armas = []
 
-    method agregarArma(arma) {
-      armas.add(arma)
-    }
+  method getArmas() = armas 
 
-    method poderPersonaje() {
-      if(vida < 10){
-        return (vida * 300 + self.poderTotal() * 2)
-      }
-      else{
-        return (vida * 15 + self.poderTotal() * 2)
-      }
-    }
+  method agregarArma(arma) {
+    armas.add(arma)
+  }
 
-    method poderTotal() = armas.sum({unArma => unArma.getPoder()})
-
-    method puedePasarCamino(camino) = (camino.getCamino().first()).condicionPasar(self) && (camino.getCamino().last()).condicionPasar(self)
+  //method puedePasarCamino(camino) = (camino.getCamino().first()).condicionPasar(self) && (camino.getCamino().last()).condicionPasar(self)
+  method puedePasarCamino(camino) = camino.getCamino().all{camino => camino.condicionPasar(self)}
 
   method recorrerCamino(camino) {
     if(self.puedePasarCamino(camino)){
-      (camino.getCamino().first()).recorrer(self)
-      (camino.getCamino().last()).recorrer(self)
+      // (camino.getCamino().first()).recorrer(self)
+      // (camino.getCamino().last()).recorrer(self)
+      var acum = self
+      camino.getCamino().fold(self, {acum, lugar => lugar.recorrer(acum)})
     }
   }
 }
 
+
 object baculo {
   const poderArma = 400
+
   method getPoder() = poderArma
+  method setPoder() {
+    
+  }
 }
 
-object espada {
-    var origen = null
-    var poderArma = 0
+object espadaElfica {
+  var poderArma = 0
 
-    method getPoder() = poderArma
-    method setPoder() {
-      poderArma = self.poderDependiendoArma()
-    }
-    
-    method setOrigen(nuevoOrigen) {
-        origen = nuevoOrigen
-    }
+  method getPoder() = poderArma
+  method setPoder() {
+    poderArma = 10 * 25
+  }
+}
 
-    method poderDependiendoArma() {
-        if(origen == "elfico"){
-            return 10 * 25
-        }
-        else if(origen == "enano"){
-            return 10 * 20
-        }
-        else if(origen == "humano"){
-            return 10 * 15
-        }
-        else {
-            return 0
-        }
-    }
+object espadaEnana {
+  var poderArma = 0
+
+  method getPoder() = poderArma
+  method setPoder() {
+    poderArma = 10 * 20
+  }
+}
+
+object espadaHumana {
+  var poderArma = 0
+
+  method getPoder() = poderArma
+  method setPoder() {
+    poderArma = 10 * 15
+  }
 }
 
 object lebennin {
@@ -86,10 +85,6 @@ object lebennin {
 object minasTirith {
   method condicionPasar(personaje) = personaje.getArmas().size() > 0
 
-  /*method recorrer(personaje) {
-    if(personaje != tomBombadil)
-    personaje.vida(personaje.vida() - 10
-  }*/
   method recorrer(personaje) {
     personaje.cambiarVida(-10)
   }
@@ -98,27 +93,23 @@ object minasTirith {
 object lossarnach {
   method condicionPasar(personaje) = true
 
-  /*method recorrer(personaje) {
-    if(personaje != tomBombadil)
-    personaje.vida(personaje.vida() + 1)
-  }*/
   method recorrer(personaje) {
     personaje.cambiarVida(1)
   }
 }
 
 object gondor {
-  var caminoGondor = [lebennin, minasTirith]
+  var camino = [lebennin, minasTirith]
 
-  method getCamino() = caminoGondor 
+  method getCamino() = camino
 
   method cambiarInicio(inicio) {
-    caminoGondor.remove(caminoGondor.first())
-    caminoGondor = [inicio] + caminoGondor
+    camino.remove(camino.first())
+    camino = [inicio] + camino
   }
   method cambiarFinal(final) {
-    caminoGondor.remove(caminoGondor.last())
-    caminoGondor.add(final)
+    camino.remove(camino.last())
+    camino.add(final)
   }
   /*method cambiarCamino(inicio, final) {
     caminoGondor.clear()
@@ -141,16 +132,24 @@ object tomBombadil {
 
   method getArmas() = armas
 
-  method puedePasarCamino(camino) = (camino.getCamino().first()).condicionPasar(self) && (camino.getCamino().last()).condicionPasar(self)
-
+  //method puedePasarCamino(camino) = (camino.getCamino().first()).condicionPasar(self) && (camino.getCamino().last()).condicionPasar(self)
+  method puedePasarCamino(camino) = camino.getCamino().all{camino => camino.condicionPasar(self)}
+  
   method recorrerCamino(camino) {
     if(self.puedePasarCamino(camino)){
-      (camino.getCamino().first()).recorrer(self)
-      (camino.getCamino().last()).recorrer(self)
+      // (camino.getCamino().first()).recorrer(self)
+      // (camino.getCamino().last()).recorrer(self)
+      var acum = self
+      camino.getCamino().fold(self, {acum, lugar => lugar.recorrer(acum)})
     }
   }
 }
 
 object armaDesconocida {
-  
+  const poderArma = 0
+
+  method getPoder() = poderArma
+  method setPoder() {
+    
+  }
 }
