@@ -1,0 +1,47 @@
+import coleccionCartas.*
+
+describe "group of test for cartas" {
+  test "juanCruz consigue las cartas" {
+    juanCruz.conseguirCarta(anchoDeEspadas)
+    assert.that(juanCruz.tieneCarta(anchoDeEspadas))
+  }
+
+  test "juanCruz no tiene una carta" {
+    juanCruz.conseguirCarta(anchoDeEspadas)
+    assert.notThat(juanCruz.tieneCarta(cartaYughiOh))
+  }
+  
+  test "juanCruz vende una carta" {
+    juanCruz.conseguirCarta(cartaPicachu)
+    juanCruz.vender()
+    assert.equals(10, juanCruz.cuantaPlataTienes())
+    assert.notThat(juanCruz.tieneCarta(cartaPicachu))
+  }
+  
+  test "juanCruz consigue y vende varias cartas" {
+    juanCruz.conseguirCarta(cartaPicachu)
+    juanCruz.conseguirCarta(anchoDeEspadas)
+    juanCruz.conseguirCarta(cartaYughiOh)
+    juanCruz.vender()
+    juanCruz.vender()
+    assert.equals(710, juanCruz.cuantaPlataTienes())
+    assert.notThat(juanCruz.tieneCarta(cartaPicachu))
+    assert.notThat(juanCruz.tieneCarta(anchoDeEspadas))
+    assert.that(juanCruz.tieneCarta(cartaYughiOh))
+  }
+
+  test "cotizacion de la coleccion de juanCruz" {
+        juanCruz.conseguirCarta(cartaPicachu)
+        juanCruz.conseguirCarta(anchoDeEspadas)
+        juanCruz.conseguirCarta(cartaYughiOh)
+        assert.equals(810 , juanCruz.cotizacion())
+  }
+
+  test "cotizacion de la coleccion de juanCruz, luego de ser revalorizada" {
+        juanCruz.conseguirCarta(cartaPicachu)
+        juanCruz.conseguirCarta(anchoDeEspadas)
+        juanCruz.conseguirCarta(cartaYughiOh)
+        juanCruz.visitarExperto()
+        assert.equals(707+10+200 , juanCruz.cotizacion())
+  }
+}

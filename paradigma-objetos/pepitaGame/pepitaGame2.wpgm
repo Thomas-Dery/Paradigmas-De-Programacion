@@ -10,7 +10,7 @@ program PepitaGame2 {
 
     game.addVisual(pepita)
     game.addVisual(alpiste)
-    game.addVisual(manzana)
+    // game.addVisual(manzana)
 
     keyboard.right().onPressDo({ pepita.position(pepita.position().right(1))   // Mover a la derecha
     })
@@ -26,13 +26,13 @@ program PepitaGame2 {
 
     game.onTick(2000, "baja", { pepita.position(pepita.position().down(1)) })
 
-    var comida = game.colliders(pepita).first()   
+    // const comida = game.colliders(pepita).first()   
 
-    keyboard.c().onPressDo({
-        if ((!game.colliders(pepita).first()).isEmpty(){
-            pepita.comer(comida)
-        })
-    })
+    // keyboard.c().onPressDo({
+    //     if ((!game.colliders(pepita).first()).isEmpty(){
+    //         pepita.comer(comida)
+    //     })
+    // })
 
     game.start()
 }

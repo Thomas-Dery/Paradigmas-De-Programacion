@@ -27,7 +27,7 @@ object alpiste {
   method image() = "alpiste.png"
   method energia() = 5
 
-  var position = game.at(7, 10)
+  const position = game.at(7, 10)
   method position() = position
 
 }
@@ -36,7 +36,7 @@ object manzana {
 
   method image() = "manzana.png"
   var madurez = 1
-  var position = game.at(8, 4)
+  const position = game.at(8, 4)
 
   method position() = position
 
